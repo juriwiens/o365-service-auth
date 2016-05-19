@@ -8,6 +8,7 @@
     "nock": "registry:npm/nock#0.7.0+20160211003958"
   },
   "globalDependencies": {
-    "isomorphic-fetch": "registry:dt/isomorphic-fetch#0.0.0+20160505171433"
+    "isomorphic-fetch": "registry:dt/isomorphic-fetch#0.0.0+20160505171433",
+    "node": "registry:dt/node#6.0.0+20160514165920"
   }
 }
