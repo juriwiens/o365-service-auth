@@ -31,3 +31,18 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# Visual Studio Code
+.vscode
+
+# Compiled files
+dist
+
+# Typings
+typings
+
+# Keys in end2end-tests folder
+e2e-tests/*.crt
+e2e-tests/*.der
+e2e-tests/*.key
+e2e-tests/*.pem

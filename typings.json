@@ -1,0 +1,13 @@
+{
+  "name": "o365-service-auth",
+  "version": false,
+  "dependencies": {
+    "jsonwebtoken": "github:juriwiens/typed-jsonwebtoken#55b4958242cde9f1994ac9601889d33fc0df670e"
+  },
+  "devDependencies": {
+    "nock": "registry:npm/nock#0.7.0+20160211003958"
+  },
+  "globalDependencies": {
+    "isomorphic-fetch": "registry:dt/isomorphic-fetch#0.0.0+20160505171433"
+  }
+}
