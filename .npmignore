@@ -1,0 +1,9 @@
+# Dependency directory
+node_modules
+
+# Editors
+.vscode/
+.idea/
+
+# Private files like private keys, etc.
+.private/

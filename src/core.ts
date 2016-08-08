@@ -5,6 +5,9 @@ import * as reqJWT from './requestJWT'
 import { sha1Thumb } from './crtThumb'
 
 type JWT = reqJWT.JWT
+type FetchFn = typeof fetch
+
+export type ProvideTokenFn = () => Promise<AccessToken>
 
 export interface TokenEndpointConf {
   url: string
@@ -19,11 +22,6 @@ export interface AccessToken {
   not_before: string
   resource: string
   access_token: string
-}
-
-const defaultEndpointConf: TokenEndpointConf = {
-  url: 'https://login.microsoftonline.com/keskinfensterbau.de/oauth2/token',
-  httpMethod: 'POST'
 }
 
 /**
@@ -49,11 +47,11 @@ function requestAccessToken(jwt: JWT, clientID: string,
   }).then(res => res.json())
 }
 
-export function obtainAccessToken(clientID: string, derCertificate: Buffer,
-                                  privateKey: Buffer,
-                                  endpointConf = defaultEndpointConf)
-                                  : Promise<AccessToken> {
-  const certThumbprint = sha1Thumb(derCertificate)
-  const jwt = reqJWT.make(clientID, endpointConf.url, certThumbprint, privateKey)
-  return requestAccessToken(jwt, clientID, endpointConf)
+export function createProvideTokenFn(clientID: string, derCertificate: Buffer,
+                                     privateKey: Buffer,
+                                     endpointConf: TokenEndpointConf)
+                                     : ProvideTokenFn {
+    const certThumbprint = sha1Thumb(derCertificate)
+    const jwt = reqJWT.make(clientID, endpointConf.url, certThumbprint, privateKey)
+    return () => requestAccessToken(jwt, clientID, endpointConf)
 }

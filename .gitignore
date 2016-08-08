@@ -1,3 +1,5 @@
+.DS_Store
+
 # Logs
 logs
 *.log
@@ -32,17 +34,15 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
-# Visual Studio Code
-.vscode
+# Editors
+.vscode/
+.idea/
 
 # Compiled files
-dist
+dist/
 
 # Typings
-typings
+typings/
 
-# Keys in end2end-tests folder
-e2e-tests/*.crt
-e2e-tests/*.der
-e2e-tests/*.key
-e2e-tests/*.pem
+# Private files like private keys, etc.
+.private/

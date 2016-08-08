@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "description": "Node.js library to obtain OAuth 2.0 access tokens for accessing Office 365 APIs using a Service App",
   "main": "dist/src/index.js",
+  "typings": "dist/src/index.d.ts",
   "scripts": {
     "clean": "rm -rf ./dist",
-    "precompile": "typings install",
     "compile": "tsc",
     "watch:compile": "tsc -w",
     "pretest": "npm run compile",
@@ -25,14 +25,17 @@
   },
   "homepage": "https://github.com/juriwiens/o365-service-auth#readme",
   "devDependencies": {
-    "ava": "^0.14.0",
+    "@types/isomorphic-fetch": "0.0.28",
+    "@types/jsonwebtoken": "^7.1.29",
+    "@types/nock": "^0.54.29",
+    "@types/node": "^6.0.31",
+    "ava": "^0.16.0",
     "nock": "^8.0.0",
-    "tslint": "^3.10.2",
-    "typescript": "^1.8.10",
-    "typings": "^1.0.4"
+    "tslint": "^3.14.0",
+    "typescript": "^2.0.0"
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "jsonwebtoken": "^6.2.0"
+    "jsonwebtoken": "^7.1.7"
   }
 }

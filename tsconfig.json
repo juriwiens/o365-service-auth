@@ -14,7 +14,8 @@
         "noLib": false,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
-        "outDir": "dist"
+        "outDir": "dist",
+        "strictNullChecks": true
     },
     "formatCodeOptions": {
         "indentSize": 2,

@@ -5,7 +5,7 @@ export type JWT = string
 export function make(clientID: string, tokenEndpointURL: string,
                      certThumbprint: string, privateKey: Buffer): JWT {
   const claims = {} // We don't need to add any claims
-  const signOpts: jwt.SignOptions = {
+  const signOpts: /*jwt.SignOptions*/ Object = { // Change back to SignOptions type when 'headers' bug is fixed
     algorithm: 'RS256',
     header: { 'x5t': certThumbprint },
     audience: tokenEndpointURL,

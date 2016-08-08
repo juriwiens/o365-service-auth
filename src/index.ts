@@ -1,2 +1,2 @@
-import { obtainAccessToken } from './core'
-export { obtainAccessToken }
+import { createProvideTokenFn, ProvideTokenFn, TokenEndpointConf, AccessToken } from './core'
+export { createProvideTokenFn, ProvideTokenFn, TokenEndpointConf, AccessToken }
