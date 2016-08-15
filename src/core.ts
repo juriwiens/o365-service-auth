@@ -5,6 +5,7 @@ import { sha1Thumb } from './crtThumb'
 
 export type ProvideTokenFn = () => Promise<AccessToken>
 type ProvideJWTFn = () => JWT
+type Seconds = number
 
 export interface TokenEndpointConf {
   url: string
@@ -44,12 +45,22 @@ function requestAccessToken(provideJWT: ProvideJWTFn, clientID: string,
   }).then(res => res.json())
 }
 
+function isAccessTokenExpired(token: AccessToken, safetyBuffer: Seconds): boolean {
+  console.log('typeof token.expires_on: ', typeof token.expires_on)
+  return Math.floor(Date.now() / 1000) >=
+    (parseInt(token.expires_on, 10) - safetyBuffer)
+}
+
 export function createProvideTokenFn(clientID: string, derCertificate: Buffer,
                                      privateKey: Buffer,
                                      endpointConf: TokenEndpointConf)
                                      : ProvideTokenFn {
-    const certThumbprint = sha1Thumb(derCertificate)
-    const provideJWT = createProvideJWTFn(clientID, endpointConf.url,
-      certThumbprint, privateKey)
-    return () => requestAccessToken(provideJWT, clientID, endpointConf)
+  const certThumbprint = sha1Thumb(derCertificate)
+  const provideJWT = createProvideJWTFn(clientID, endpointConf.url,
+    certThumbprint, privateKey)
+  let lastAccessToken: AccessToken
+  return () => lastAccessToken && !isAccessTokenExpired(lastAccessToken, 10) ?
+    Promise.resolve(lastAccessToken) :
+    requestAccessToken(provideJWT, clientID, endpointConf)
+      .then(token => lastAccessToken = token)
 }
