@@ -1,9 +1,9 @@
 import { test } from 'ava'
-import * as reqJWT from '../src/requestJWT'
+import { createProvideJWTFn, JWT } from '../src/requestJWT'
 import { privateKey } from './keys'
 
-test('make() should create a request JWT', t => {
-  const token = reqJWT.make('mockClientID', 'mockTokenEndpointURL',
-                            'mockThumbprint', privateKey.pemBuffer)
-  t.true(typeof token === 'string')
+test('createProvideJWTFn should create a function that returns a new JWT on every call', t => {
+  const provideJWT = createProvideJWTFn('mockClientID', 'mockTokenEndpointURL',
+    'mockThumbprint', privateKey.pemBuffer)
+  t.true(typeof provideJWT() === 'string')
 })

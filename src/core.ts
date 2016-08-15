@@ -1,13 +1,10 @@
 import * as qs from 'querystring'
 import 'isomorphic-fetch'
-import * as jwt from 'jsonwebtoken'
-import * as reqJWT from './requestJWT'
+import { createProvideJWTFn, JWT } from './requestJWT'
 import { sha1Thumb } from './crtThumb'
 
-type JWT = reqJWT.JWT
-type FetchFn = typeof fetch
-
 export type ProvideTokenFn = () => Promise<AccessToken>
+type ProvideJWTFn = () => JWT
 
 export interface TokenEndpointConf {
   url: string
@@ -38,12 +35,12 @@ function makeRequestBody(clientID: string, requestJWT: JWT): string {
   })
 }
 
-function requestAccessToken(jwt: JWT, clientID: string,
+function requestAccessToken(provideJWT: ProvideJWTFn, clientID: string,
                             endpointConf: TokenEndpointConf)
                             : Promise<AccessToken> {
   return fetch(endpointConf.url, {
     method: endpointConf.httpMethod,
-    body: makeRequestBody(clientID, jwt)
+    body: makeRequestBody(clientID, provideJWT())
   }).then(res => res.json())
 }
 
@@ -52,6 +49,7 @@ export function createProvideTokenFn(clientID: string, derCertificate: Buffer,
                                      endpointConf: TokenEndpointConf)
                                      : ProvideTokenFn {
     const certThumbprint = sha1Thumb(derCertificate)
-    const jwt = reqJWT.make(clientID, endpointConf.url, certThumbprint, privateKey)
-    return () => requestAccessToken(jwt, clientID, endpointConf)
+    const provideJWT = createProvideJWTFn(clientID, endpointConf.url,
+      certThumbprint, privateKey)
+    return () => requestAccessToken(provideJWT, clientID, endpointConf)
 }

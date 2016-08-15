@@ -36,6 +36,6 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "jsonwebtoken": "^7.1.7"
+    "jsonwebtoken": "^7.1.9"
   }
 }
