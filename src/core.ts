@@ -46,7 +46,6 @@ function requestAccessToken(provideJWT: ProvideJWTFn, clientID: string,
 }
 
 function isAccessTokenExpired(token: AccessToken, safetyBuffer: Seconds): boolean {
-  console.log('typeof token.expires_on: ', typeof token.expires_on)
   return Math.floor(Date.now() / 1000) >=
     (parseInt(token.expires_on, 10) - safetyBuffer)
 }
