@@ -2,6 +2,9 @@ import * as qs from 'querystring'
 import 'isomorphic-fetch'
 import { createProvideJWTFn, JWT } from './requestJWT'
 import { sha1Thumb } from './crtThumb'
+import * as makeDebug from 'debug'
+
+const debug = makeDebug('o365-service-auth')
 
 export type ProvideTokenFn = () => Promise<AccessToken>
 type ProvideJWTFn = () => JWT
@@ -39,9 +42,11 @@ function makeRequestBody(clientID: string, requestJWT: JWT): string {
 function requestAccessToken(provideJWT: ProvideJWTFn, clientID: string,
                             endpointConf: TokenEndpointConf)
                             : Promise<AccessToken> {
+  const body = makeRequestBody(clientID, provideJWT())
+  debug('request body', body)
   return fetch(endpointConf.url, {
     method: endpointConf.httpMethod,
-    body: makeRequestBody(clientID, provideJWT())
+    body
   }).then(res => res.json())
 }
 

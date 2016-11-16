@@ -3,6 +3,8 @@ const qs = require('querystring');
 require('isomorphic-fetch');
 const requestJWT_1 = require('./requestJWT');
 const crtThumb_1 = require('./crtThumb');
+const makeDebug = require('debug');
+const debug = makeDebug('o365-service-auth');
 function makeRequestBody(clientID, requestJWT) {
     return qs.stringify({
         grant_type: 'client_credentials',
@@ -13,9 +15,11 @@ function makeRequestBody(clientID, requestJWT) {
     });
 }
 function requestAccessToken(provideJWT, clientID, endpointConf) {
+    const body = makeRequestBody(clientID, provideJWT());
+    debug('request body', body);
     return fetch(endpointConf.url, {
         method: endpointConf.httpMethod,
-        body: makeRequestBody(clientID, provideJWT())
+        body
     }).then(res => res.json());
 }
 function isAccessTokenExpired(token, safetyBuffer) {
